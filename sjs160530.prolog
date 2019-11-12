@@ -1,45 +1,36 @@
 %1---------------------------------------------------------
 
-% Predicate to check if the number is odd or not.
-checkOdd(Q):-
-    R is Q mod 2,
+% predicate to check if the number is odd
+odd(N):-
+    R is N mod 2,
     R is 1 -> true
     ;false.
 
-% Predicate to check if N is a multiple or 3 or not.
-checkMultiple3(N):-
+% predicate to check if the number is a multiple of 3
+multiple3(N):-
     R is N mod 3,
-    R is 0 -> Q is N/3, checkOdd(round(Q))
+    R is 0 -> D is N/3, odd(round(D))
     ;false.
 
-% Predicate to check multiple of 3.
+% predicate to check for odd multiple of 3.
 oddMultOf3(N):-
 	(   not(integer(N)) ->
 	print("ERROR: The given parameter is not an integer")
-	;checkMultiple3(N)).
+	;multiple3(N)).
 	
 %2--------------------------------------------------------------
-
-list_loop(List, [H|T], Product, Index) :-
-    (   not(length(List,Index)) ->  
-    	Product is Product * H,
-        inc(Index).,
-        list_loop(List, T, Product, Index);).
-
-list_prod(List, Product) :-
-    (   List == [] ->  Product is 0
-    ;   [H|T] is List,
-        Product is H,
-        list_loop(List,T,Product,0)).
 		
 %predicate that takes a list and produces a produce of its contents
 list_prod(List,Num).
+
 %empty list base clause
 list_prod([],0).
+
 %single list base clause
 list_prod([H],H).
+
 %recursive call with multiplication logic
-list_prod([H|T],Product):- list_prod(T,Prod), Product is Prod * H.
+list_prod([H|T],Product):- list_prod(T,P), Product is P * H.
 
 %3-------------------------------------------------------------------
 %predicate that takes a list and determines if it represents a palindrome
@@ -72,9 +63,9 @@ bubble(X,[Y|T],[X|NT],Max):-X=<Y,bubble(Y,T,NT,Max).
 
 % % Predicate to find length of a list.
 len([],0).
-len([_|T],L):-
-    len(T,L1),
-    L is L1+1.
+len([_|T],Len):-
+    len(T,Len1),
+    Len is Len1+1.
 
 % Predicate to find to find minimum of first 2 numbers of the list.
 findmin([],[]).
@@ -87,9 +78,9 @@ secondMin(List, M2):-
     % Sort the list and remove duplicates.
     mySort(List,List2),
     % Calculate the size of the list.
-    len(List2,L),
+    len(List2,Len),
     % Print error if the size of the list is less than 2.
-    L < 2 -> print("ERROR: List has fewer than two unique elements.")
+    Len < 2 -> print("ERROR: List has fewer than two unique elements.")
     % Otherwise, check the elements of the list.
     ;checklist(List)->
     % Sort the list and find the minimum.
@@ -114,19 +105,22 @@ classify(List,Even,Odd):-
 classify([],[],[]).
 
 %6-----------------------------------------------------------------------------
+
 %predicate that takes three lists as parameters and checks for bookends
 bookends(List1,List2,List3):-
     prefix(List1,List3),
     suffix(List2,List3).
 
+%predicates that checks is the first passed list is a prexix of the other
 prefix([],_):-!.
 prefix([H1|T1],[H2|T2]):-
     H1 == H2,
     prefix(T1,T2).
 
+%predicates that checks is the first passed list is a suffix of the other
 suffix(L,L):-!.
-suffix(S,[_|T1]):-
-    suffix(S,T1),
+suffix(S,[_|T]):-
+    suffix(S,T),
     !.
 	
 %7-----------------------------------------------------------------------------
