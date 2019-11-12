@@ -48,6 +48,53 @@ palindrome(N):-
 	
 %4-----------------------------------------------------------------------
 
+% predicate to check if there is an non-numeric element in the list
+% prints error messsage if non-numeric
+checklist([]):-true.
+checklist([H|T]):-
+    % Print error the element is not a number.
+    not(number(H))-> print("Error: "),print(H),print(" is not a number."),false
+    ;checklist(T).
+
+mySort(List,Sorted):-
+    %checking for non-numeric characters
+    %if a number, bubble sort it, if not print error msg and abort
+    checklist(List) -> b_sort(List,[],Sorted)
+    ;abort.
+
+%bubble sort used    
+b_sort([],Acc,Acc).
+b_sort([H|T],Acc,Sorted):-bubble(H,T,NT,Max),b_sort(NT,[Max|Acc],Sorted).
+bubble(X,[],[],X).
+bubble(X,[Y|T],[Y|NT],Max):-X>Y,bubble(X,T,NT,Max).
+bubble(X,[Y|T],[X|NT],Max):-X=<Y,bubble(Y,T,NT,Max).
+
+
+% % Predicate to find length of a list.
+len([],0).
+len([_|T],L):-
+    len(T,L1),
+    L is L1+1.
+
+% Predicate to find to find minimum of first 2 numbers of the list.
+findmin([],[]).
+findmin([_,T|_],M2):-
+    % Set the second minimum value.
+    M2 is T.
+
+% predicate to find the second minimum.
+secondMin(List, M2):-
+    % Sort the list and remove duplicates.
+    mySort(List,List2),
+    % Calculate the size of the list.
+    len(List2,L),
+    % Print error if the size of the list is less than 2.
+    L < 2 -> print("ERROR: List has fewer than two unique elements.")
+    % Otherwise, check the elements of the list.
+    ;checklist(List)->
+    % Sort the list and find the minimum.
+    mySort(List,List2),
+    findmin(List2,M2),!;!.
 
 %5-----------------------------------------------------------------------
 
