@@ -1,4 +1,3 @@
-/**
 %   Title:
 %         Programming Assignment #2
 %         Prolog Programming Assignment
