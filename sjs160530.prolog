@@ -1,4 +1,23 @@
-%1---------------------------------------------------------
+/**
+  *   Title:
+  *         Programming Assignment #2
+  *         Prolog Programming Assignment
+  *
+  *   Author:
+  *         Stuart Small- sjs160530
+  *         Computer Science Undergraduate
+  *         sjs160530@utdallas.edu
+  *
+  *   Description:
+  *         This file contains multiple procedures that perform seperate tasks.
+  *
+  *    Date:
+  *         11/11/2019
+  */
+
+%	
+% Question 1
+% Checked
 
 % predicate to check if the number is odd
 odd(N):-
@@ -18,10 +37,11 @@ oddMultOf3(N):-
 	print("ERROR: The given parameter is not an integer")
 	;multiple3(N)).
 	
-%2--------------------------------------------------------------
+%	
+% Question 2
+% Checked
 		
 %predicate that takes a list and produces a produce of its contents
-list_prod(List,Num).
 
 %empty list base clause
 list_prod([],0).
@@ -32,12 +52,18 @@ list_prod([H],H).
 %recursive call with multiplication logic
 list_prod([H|T],Product):- list_prod(T,P), Product is P * H.
 
-%3-------------------------------------------------------------------
+%	
+% Question 3
+% Checked
+
 %predicate that takes a list and determines if it represents a palindrome
 palindrome(N):-
 	reverse(N,N).
 	
-%4-----------------------------------------------------------------------
+%	
+% Question 4
+% Checked... ([3,3,3], M2). incorrect output
+% need to implement a matching element check
 
 % predicate to check if there is an non-numeric element in the list
 % prints error messsage if non-numeric
@@ -61,7 +87,7 @@ bubble(X,[Y|T],[Y|NT],Max):-X>Y,bubble(X,T,NT,Max).
 bubble(X,[Y|T],[X|NT],Max):-X=<Y,bubble(Y,T,NT,Max).
 
 
-% % Predicate to find length of a list.
+% Predicate to find length of a list.
 len([],0).
 len([_|T],Len):-
     len(T,Len1),
@@ -87,7 +113,9 @@ secondMin(List, M2):-
     mySort(List,List2),
     findmin(List2,M2),!;!.
 
-%5-----------------------------------------------------------------------
+%	
+% Question 5
+% Checked
 
 %predicate that takes a list on integers and generates a list for even elements and a list for off elements
 %if list ele is even set to even list, else set to odd list
@@ -104,7 +132,9 @@ classify(List,Even,Odd):-
 %empty list base clause
 classify([],[],[]).
 
-%6-----------------------------------------------------------------------------
+%	
+% Question 6
+% Checked
 
 %predicate that takes three lists as parameters and checks for bookends
 bookends(List1,List2,List3):-
@@ -123,15 +153,26 @@ suffix(S,[_|T]):-
     suffix(S,T),
     !.
 	
-%7-----------------------------------------------------------------------------
-subslice([],_):-
-    !.
+%	
+% Question 7
+% Checked
 
+%predicate that tests if the first list parameter is a contiguous series 
+% of elements anywhere within the second list parameter
+subslice([],_):-!.
 subslice(Sub,[H|T]):-
     prefix(Sub,[H|T]),
     !;
     subslice(Sub,T).
-%8-----------------------------------------------------------------------------
+	
+%	
+% Question 8
+% Checked
+
+% predicate that "shifts" or "rotates" a list N places to the left. N may be
+% a negative number, i.e. rotate to the right. Your predicate should have the 
+% signature shift(+List, +Integer, +List).
+% 
 shift(L1, N, L2) :-
     N < 0, !,             % this is the case for negative N
     length(L1, Len),
@@ -142,7 +183,14 @@ shift(L1, N, L2) :-
     append(Lx, Ly, L1), % L1 is Lx || Ly
     append(Ly, Lx, L2), % L2 is Ly || Lx
     length(Lx, N).      % The length of Lx is N
-%9-----------------------------------------------------------------------------
+	
+%	
+% Question 9
+% checked
+% predicates that are an implementation of the Luhn Algorithm and returns
+%  true if the parameter is an integer and passes the Luhn test and false otherwise
+%  
+
 sum2(Num,Result):-
     N1 is mod(Num,10),
     N2 is div(Num,10),
@@ -185,21 +233,26 @@ luhn(Num):-
     Rem is mod(Result,10),
     %Check if the mod value is 0 or not.
     Rem = 0.
-%10----------------------------------------------------------------------------
+	
+%	
+% Question 10
+%
 
-%predicate implementing the graph predicate
+% predicates implementing the graph predicate
+% knowledge base
 edge(a,b).
 edge(b,c).
 edge(c,d).
 edge(d,e).
 edge(d,a).
 
-path(Z,Z).
+% path predicate
+path(X,X).
 path(Node1,Node2):-
     edge(Node1, A), 
     path(A, Node2),
     !.
-
+% cycle predicate
 cycle(Node):-
     edge(Node,X),
     path(X, Node),!.
